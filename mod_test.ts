@@ -24,7 +24,12 @@ Deno.test("encode", async (t) => {
 
   await t.step(
     "character custom dash",
-    () => assertEquals(encode("a", "-"), ".-"),
+    () => assertEquals(encode("a", { dash: "-" }), ".-"),
+  );
+
+  await t.step(
+    "character custom dash and custom dot",
+    () => assertEquals(encode("a", { dash: "-", dot: "*" }), "*-"),
   );
 
   await t.step("multiple words", () =>
@@ -35,8 +40,14 @@ Deno.test("encode", async (t) => {
 
   await t.step("multiple words custom dash", () =>
     assertEquals(
-      encode("test encode", "-"),
+      encode("test encode", { dash: "-" }),
       "- . ... - / . -. -.-. --- -.. .",
+    ));
+
+  await t.step("multiple words custom dash and custom dot", () =>
+    assertEquals(
+      encode("test encode", { dash: "-", dot: "*" }),
+      "- * *** - / * -* -*-* --- -** *",
     ));
 });
 
@@ -45,7 +56,12 @@ Deno.test("decode", async (t) => {
 
   await t.step(
     "character custom dash",
-    () => assertEquals(decode(".-", "-"), "a"),
+    () => assertEquals(decode(".-", { dash: "-" }), "a"),
+  );
+
+  await t.step(
+    "character custom dash and custom dot",
+    () => assertEquals(decode("*-", { dash: "-", dot: "*" }), "a"),
   );
 
   await t.step("multiple words", () =>
@@ -56,7 +72,13 @@ Deno.test("decode", async (t) => {
 
   await t.step("multiple words custom dash", () =>
     assertEquals(
-      decode("- . ... - / -.. . -.-. --- -.. .", "-"),
+      decode("- . ... - / -.. . -.-. --- -.. .", { dash: "-" }),
+      "test decode",
+    ));
+
+  await t.step("multiple words custom dash and custom dot", () =>
+    assertEquals(
+      decode("- * *** - / -** * -*-* --- -** *", { dash: "-", dot: "*" }),
       "test decode",
     ));
 });
