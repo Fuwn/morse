@@ -17,7 +17,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 /** Configure the format of dots and dashes within a Morse code sequence. */
-interface Grammar {
+export interface Grammar {
   dot?: string;
   dash?: string;
 }
@@ -191,11 +191,20 @@ export function encode(text: string, grammar?: Grammar): string {
       case "_":
         encoded += `${dot}${dot}${dash}${dash}${dot}${dash}`;
         break;
+      case '"':
+        encoded += `${dot}${dash}${dot}${dot}${dash}${dot}`;
+        break;
       case "`":
         encoded += `${dot}${dash}${dot}${dot}${dash}${dot}`;
         break;
       case "$":
         encoded += `${dot}${dot}${dot}${dash}${dot}${dot}${dash}`;
+        break;
+      case "¿":
+        encoded += `${dot}${dot}${dash}${dot}${dash}`;
+        break;
+      case "¡":
+        encoded += `${dash}${dash}${dot}${dot}${dot}${dash}`;
         break;
       case "@":
         encoded += `${dot}${dash}${dash}${dot}${dash}${dot}`;
@@ -391,10 +400,19 @@ export function decode(morse: string, grammar?: Grammar): string {
           decoded += "_";
           break;
         case `${dot}${dash}${dot}${dot}${dash}${dot}`:
+          decoded += '"';
+          break;
+        case `${dot}${dash}${dot}${dot}${dash}${dot}`:
           decoded += "`";
           break;
         case `${dot}${dot}${dot}${dash}${dot}${dot}${dash}`:
           decoded += "$";
+          break;
+        case `${dot}${dot}${dash}${dot}${dash}`:
+          decoded += "¿";
+          break;
+        case `${dash}${dash}${dot}${dot}${dot}${dash}`:
+          decoded += "¡";
           break;
         case `${dot}${dash}${dash}${dot}${dash}${dot}`:
           decoded += "@";
