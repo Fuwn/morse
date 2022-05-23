@@ -194,9 +194,9 @@ export function encode(text: string, grammar?: Grammar): string {
       case '"':
         encoded += `${dot}${dash}${dot}${dot}${dash}${dot}`;
         break;
-      case "`":
-        encoded += `${dot}${dash}${dot}${dot}${dash}${dot}`;
-        break;
+      // case "`":
+      //   encoded += `${dot}${dash}${dot}${dot}${dash}${dot}`;
+      //   break;
       case "$":
         encoded += `${dot}${dot}${dot}${dash}${dot}${dot}${dash}`;
         break;
@@ -402,9 +402,9 @@ export function decode(morse: string, grammar?: Grammar): string {
         case `${dot}${dash}${dot}${dot}${dash}${dot}`:
           decoded += '"';
           break;
-        case `${dot}${dash}${dot}${dot}${dash}${dot}`:
-          decoded += "`";
-          break;
+        // case `${dot}${dash}${dot}${dot}${dash}${dot}`:
+        //   decoded += "`";
+        //   break;
         case `${dot}${dot}${dot}${dash}${dot}${dot}${dash}`:
           decoded += "$";
           break;
