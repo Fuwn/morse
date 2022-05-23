@@ -136,6 +136,23 @@ Deno.test("encode", async (t) => {
         assertEquals(encode("Z", { dot: "*", dash: "-" }), "--**");
       });
     });
+
+    await t.step("sentence", async (t) => {
+      assertEquals(
+        encode("Hello, World!"),
+        ".... . ._.. ._.. ___ __..__ / .__ ___ ._. ._.. _.. _._.__",
+      );
+
+      await t.step("grammar", () => {
+        assertEquals(
+          encode("Hello, World!", {
+            dot: "*",
+            dash: "-",
+          }),
+          "**** * *-** *-** --- --**-- / *-- --- *-* *-** -** -*-*--",
+        );
+      });
+    });
   });
 
   await t.step("numbers", async (t) => {
@@ -207,24 +224,6 @@ Deno.test("encode", async (t) => {
       assertEquals(encode("¡", { dot: "*", dash: "-" }), "--***-");
     });
   });
-
-  await t.step("multiple words", () =>
-    assertEquals(
-      encode("test encode"),
-      "_ . ... _ / . _. _._. ___ _.. .",
-    ));
-
-  await t.step("multiple words custom dash", () =>
-    assertEquals(
-      encode("test encode", { dash: "-" }),
-      "- . ... - / . -. -.-. --- -.. .",
-    ));
-
-  await t.step("multiple words custom dash and custom dot", () =>
-    assertEquals(
-      encode("test encode", { dash: "-", dot: "*" }),
-      "- * *** - / * -* -*-* --- -** *",
-    ));
 });
 
 Deno.test("decode", async (t) => {
@@ -284,6 +283,23 @@ Deno.test("decode", async (t) => {
         assertEquals(decode("-**-", { dot: "*", dash: "-" }), "x");
         assertEquals(decode("-*--", { dot: "*", dash: "-" }), "y");
         assertEquals(decode("--**", { dot: "*", dash: "-" }), "z");
+      });
+    });
+
+    await t.step("sentence", async (t) => {
+      assertEquals(
+        decode(".... . ._.. ._.. ___ __..__ / .__ ___ ._. ._.. _.. _._.__"),
+        "Hello, World!".toLowerCase(),
+      );
+
+      await t.step("grammar", () => {
+        assertEquals(
+          decode("**** * *-** *-** --- --**-- / *-- --- *-* *-** -** -*-*--", {
+            dot: "*",
+            dash: "-",
+          }),
+          "Hello, World!".toLowerCase(),
+        );
       });
     });
   });
@@ -357,22 +373,4 @@ Deno.test("decode", async (t) => {
       assertEquals(decode("--***-", { dot: "*", dash: "-" }), "¡");
     });
   });
-
-  await t.step("multiple words", () =>
-    assertEquals(
-      decode("_ . ... _ / _.. . _._. ___ _.. ."),
-      "test decode",
-    ));
-
-  await t.step("multiple words custom dash", () =>
-    assertEquals(
-      decode("- . ... - / -.. . -.-. --- -.. .", { dash: "-" }),
-      "test decode",
-    ));
-
-  await t.step("multiple words custom dash and custom dot", () =>
-    assertEquals(
-      decode("- * *** - / -** * -*-* --- -** *", { dash: "-", dot: "*" }),
-      "test decode",
-    ));
 });
