@@ -28,7 +28,7 @@ interface Grammar {
  * import { encode } from "https://deno.land/x/morse/mod.ts";
  *
  * encode("a")      // "._"
- * encode("a", "-") // ".-"
+ * encode("a", { dash: "-" }) // ".-"
  * ```
  */
 export function encode(text: string, grammar?: Grammar): string {
@@ -221,7 +221,7 @@ export function encode(text: string, grammar?: Grammar): string {
  * import { decode } from "https://deno.land/x/morse/mod.ts";
  *
  * decode("._")      // "a"
- * decode(".-", "-") // "a"
+ * decode(".-", { dash: "-" }) // "a"
  * ```
  */
 export function decode(morse: string, grammar?: Grammar): string {

@@ -24,7 +24,7 @@ and the latest stable documentation is available
 import { encode } from "https://deno.land/x/morse/mod.ts";
 
 encode("a"); // "._"
-encode("a", "-"); // ".-"
+encode("a", { dash: "-" }); // ".-"
 ```
 
 ### Decoding
@@ -33,7 +33,7 @@ encode("a", "-"); // ".-"
 import { decode } from "https://deno.land/x/morse/mod.ts";
 
 decode("._"); // "a"
-decode(".-", "-"); // "a"
+decode(".-", { dash: "-" }); // "a"
 ```
 
 ## License
